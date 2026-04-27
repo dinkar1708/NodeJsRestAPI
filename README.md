@@ -171,6 +171,15 @@ The application connects to MongoDB at `mongodb://<HOST_IP>/REST_DEMO`
 
 Make sure MongoDB is running before starting the application.
 
-## Development Tools
+## Development
 
-Created with [Nodeclipse](https://github.com/Nodeclipse/nodeclipse-1) - a free open-source Eclipse plugin for Node.js development.
+### Recommended IDEs
+
+- **VS Code** - Recommended for Node.js development with excellent JavaScript/TypeScript support
+
+### Useful VS Code Extensions
+
+- ESLint
+- Prettier
+- REST Client
+- MongoDB for VS Code
