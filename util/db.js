@@ -11,11 +11,8 @@ var initialize = function() {
 	const
 	MONGO_URL = 'mongodb://' + config.HOST_IP + '/REST_DEMO';
 
-	mongoose.connect(MONGO_URL, {
-		server : {
-			// always keep trying to connect
-			reconnectTries : Number.MAX_VALUE
-		}
+	mongoose.connect(MONGO_URL).catch(err => {
+		console.log('\nMongoose initial connection error: ' + err);
 	});
 
 	mongoose.connection.on('connected', function() {
@@ -25,11 +22,6 @@ var initialize = function() {
 
 	mongoose.connection.on('error', function(e) {
 		console.log('\nMongoose on(error) connection error: ' + e);
-	});
-
-	// mongoose internally always do retrying if connection is disconnected.
-	mongoose.connection.db.on('reconnect', function(ref) {
-		console.log('Mongoose on(reconnect) reconnected to mongo server.');
 	});
 
 	mongoose.connection.on('disconnected', function() {
