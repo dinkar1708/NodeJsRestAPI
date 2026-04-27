@@ -59,3 +59,21 @@ All endpoints use POST requests:
 - Express 5.2.1
 - MongoDB + Mongoose 9.5.0
 - CORS enabled
+- Jest + Supertest (for testing)
+
+## Testing
+
+Run tests:
+```bash
+npm test
+```
+
+Run tests in watch mode:
+```bash
+npm run test:watch
+```
+
+**Test Coverage:**
+- API health check endpoint
+- addTwoNumber endpoint (positive, negative, zero, decimals)
+- 6 tests total, all passing
