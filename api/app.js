@@ -13,11 +13,16 @@ var path = require('path');
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var methodOverride = require('method-override');
+var cors = require('cors');
 
 var app = express();
 
 // all environments
 app.set('port', process.env.PORT || config.HTTP_REST_PORT);
+
+// Enable CORS for all routes
+app.use(cors());
+
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

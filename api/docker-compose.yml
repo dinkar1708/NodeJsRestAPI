@@ -17,32 +17,22 @@ services:
       timeout: 5s
       retries: 5
 
-  # Backend API Service
-  api:
-    build: ./api
+  # Node.js Application Service
+  app:
+    build: .
     container_name: nodejs-rest-api
     ports:
       - "3002:3000"
     env_file:
-      - ./api/.env.dev
+      - .env.dev
     depends_on:
       mongodb:
         condition: service_healthy
     networks:
       - app-network
-
-  # Frontend React Service
-  client:
-    build: ./client
-    container_name: nodejs-rest-client
-    ports:
-      - "3001:80"
-    environment:
-      - REACT_APP_API_URL=http://localhost:3002
-    depends_on:
-      - api
-    networks:
-      - app-network
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
 
 networks:
   app-network:
