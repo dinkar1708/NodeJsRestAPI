@@ -8,16 +8,16 @@ module.exports = {
 
 var initialize = function() {
 
-	const
-	MONGO_URL = 'mongodb://' + config.HOST_IP + '/REST_DEMO';
+	const MONGO_URL = `mongodb://${config.MONGO_HOST}:${config.MONGO_PORT}/${config.MONGO_DB}`;
+
+	console.log(`Connecting to MongoDB at: ${MONGO_URL}`);
 
 	mongoose.connect(MONGO_URL).catch(err => {
 		console.log('\nMongoose initial connection error: ' + err);
 	});
 
 	mongoose.connection.on('connected', function() {
-		console.log('\nMongoose on(connected) default connection open to '
-				+ MONGO_URL);
+		console.log('\nMongoose on(connected) default connection open to ' + MONGO_URL);
 	});
 
 	mongoose.connection.on('error', function(e) {

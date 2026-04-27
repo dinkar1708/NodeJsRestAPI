@@ -1,0 +1,42 @@
+services:
+  # MongoDB Service
+  mongodb:
+    image: mongo:latest
+    container_name: nodejs-rest-mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=REST_DEMO
+    volumes:
+      - mongodb-data:/data/db
+    networks:
+      - app-network
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Node.js Application Service
+  app:
+    build: .
+    container_name: nodejs-rest-api
+    ports:
+      - "3002:3000"
+    env_file:
+      - .env.dev
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    networks:
+      - app-network
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mongodb-data:

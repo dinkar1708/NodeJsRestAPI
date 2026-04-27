@@ -17,7 +17,7 @@ exports.addTwoNumber = function(req, res) {
 /**
  * add user in db
  */
-exports.addUser = function(req, resp) {
+exports.addUser = async function(req, resp) {
 	console.log('addUser()..');
 
 	console.log("--------------------------");
@@ -29,32 +29,26 @@ exports.addUser = function(req, resp) {
 		var name = req.body.name;
 		var address = req.body.address;
 
-		findUser(name,
-				function(UserFound) {
+		const UserFound = await findUser(name);
 
-					if (UserFound) {
-						// user found update it
-						console.log("addUser() found existing.");
-						UserFound.address = address;
-						UserFound.save();
-						response.sendSuccessMessage(resp,
-								"User updated successfully!");
-						return;
-					}
-					// add new user
-					var userNew = new User(name, address);
-					// save user in db
-					userNew.save(function(err) {
-						if (err) {
-							response.handleDbError(resp, err);
-							return;
-						}
+		if (UserFound) {
+			// user found update it
+			console.log("addUser() found existing.");
+			UserFound.address = address;
+			await UserFound.save();
+			response.sendSuccessMessage(resp, "User updated successfully!");
+			return;
+		}
 
-						response.sendSuccessMessage(resp, "User Added.");
-
-					});
-
-				});
+		// add new user
+		var userNew = new User(name, address);
+		// save user in db
+		try {
+			await userNew.save();
+			response.sendSuccessMessage(resp, "User Added.");
+		} catch (err) {
+			response.handleDbError(resp, err);
+		}
 
 	} catch (e) {
 		console.log("addUser error " + e);
@@ -63,9 +57,9 @@ exports.addUser = function(req, resp) {
 };
 
 /**
- * add user in db
+ * find user in db
  */
-exports.findUser = function(req, resp) {
+exports.findUser = async function(req, resp) {
 	console.log('findUser()..');
 
 	console.log("--------------------------");
@@ -76,39 +70,37 @@ exports.findUser = function(req, resp) {
 	try {
 		var name = req.body.name;
 
-		findUser(name,
-				function(User) {
+		const User = await findUser(name);
 
-					if (User) {
-						// user found update it
-						console.log("addUser() found existing.");
-						response.sendSuccessMessageJsonObject(resp, null,
-								'user', User);
-						return;
-					}
-					// not found
-					response.sendErrorMessageJsonObject(resp,
-							"User not found!", 'user', null);
+		if (User) {
+			// user found
+			console.log("findUser() found existing.");
+			response.sendSuccessMessageJsonObject(resp, null, 'user', User);
+			return;
+		}
 
-				});
+		// not found
+		response.sendErrorMessageJsonObject(resp, "User not found!", 'user', null);
 
 	} catch (e) {
-		console.log("addUser error " + e);
+		console.log("findUser error " + e);
 		response.sendServerCommunicationError(resp, e);
 	}
 };
 
 /**
  * find user from db
- * 
- * @param room
+ *
+ * @param name
  */
-var findUser = function(name, callBack) {
+var findUser = async function(name) {
 	console.log("find user by name " + name);
-	userSchema.findOne({
-		'name' : name
-	}, function(err, User) {
+	try {
+		const User = await userSchema.findOne({ 'name': name });
 		console.log("findUser() User  " + User);
-		callBack(User);
-	});
+		return User;
+	} catch (err) {
+		console.log("findUser() error: " + err);
+		throw err;
+	}
 };

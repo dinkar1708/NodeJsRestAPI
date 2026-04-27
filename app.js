@@ -18,9 +18,6 @@ var app = express();
 
 // all environments
 app.set('port', process.env.PORT || config.HTTP_REST_PORT);
-// set views directory to display
-app.set('views', __dirname + '/views');
-app.set('view engine', 'jade');
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

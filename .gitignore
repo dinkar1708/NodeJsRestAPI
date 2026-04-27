@@ -1,5 +1,7 @@
 # Dependencies
 node_modules/
+client/node_modules/
+client/build/
 
 # Environment variables
 .env
@@ -17,6 +19,11 @@ Thumbs.db
 # IDE
 .vscode/
 .idea/
+.settings/
+.project
+.sublime-project
+.tern-project
+.jshintrc
 *.swp
 *.swo
 *~

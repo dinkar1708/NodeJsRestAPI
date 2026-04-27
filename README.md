@@ -4,11 +4,11 @@ A RESTful API built with Node.js, Express framework, and MongoDB for user manage
 
 ## Tech Stack
 
-- **Node.js** - JavaScript runtime environment
-- **Express 3.2.6** - Web application framework
+- **Node.js 20.x** - JavaScript runtime environment
+- **Express 5.2.1** - Web application framework
 - **MongoDB** - NoSQL database
-- **Mongoose** - MongoDB object modeling tool
-- **Jade** - Template engine
+- **Mongoose 9.5.0** - MongoDB object modeling tool
+- **JSON API** - RESTful JSON responses
 
 ## Prerequisites
 
@@ -43,40 +43,69 @@ npm install mongoose
 
 ## Running the Application
 
-Start the server:
+### Backend (Express API)
+
+**Option 1: Using Docker (Recommended)**
 ```bash
+docker compose up -d
+```
+Backend API: `http://localhost:3002`
+MongoDB: `mongodb://localhost:27017`
+
+**Option 2: Local Development**
+```bash
+npm install
 npm start
 ```
+Server will start on `http://localhost:3000`
 
-Or:
+### Frontend (React App)
+
 ```bash
-node app.js
+cd client
+npm install
+npm start
 ```
-
-The server will start on `http://localhost:3000`
+React app will start on `http://localhost:3000`
 
 ## Project Structure
 
 ```
 NodeJsRestAPI/
-├── app.js                 # Main application file
+├── app.js                    # Main Express application
 ├── config/
-│   └── config.js         # Application configuration
+│   └── config.js            # Application configuration
 ├── models/
 │   └── db/
-│       ├── user.js       # User model
+│       ├── user.js          # User model
 │       └── schema/
-│           └── user.js   # User schema
+│           └── user.js      # User schema
 ├── routes/
-│   ├── index.js          # Index routes
-│   └── user.js           # User routes
+│   ├── index.js             # API info endpoint
+│   └── user.js              # User API routes
 ├── util/
-│   ├── db.js            # Database connection utility
-│   ├── response.js      # Response helper functions
-│   └── utils.js         # General utilities
-└── views/               # Jade templates
+│   ├── db.js                # MongoDB connection
+│   ├── response.js          # Response helpers
+│   └── utils.js             # Utilities
+├── client/                   # React Frontend
+│   ├── src/
+│   │   ├── App.js           # Main React component
+│   │   ├── App.css          # Styles
+│   │   └── index.js         # React entry point
+│   └── package.json         # Frontend dependencies
+├── docker-compose.yml        # Docker setup
+├── Dockerfile                # Backend container
+├── .env.local                # Local environment config
+└── .env.dev                  # Docker environment config
 
 ```
+
+## Architecture
+
+- **Backend**: Express.js REST API
+- **Frontend**: React.js SPA (Single Page Application)
+- **Database**: MongoDB (via Docker or local)
+- **Communication**: REST API with JSON responses
 
 ## API Endpoints
 
