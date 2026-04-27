@@ -91,3 +91,8 @@ This deploys all 3 services (MongoDB, API, Frontend) together.
 ## License
 
 MIT
+
+## Demo
+<img width="1163" height="699" alt="Screenshot 2026-04-27 at 11 53 41" src="https://github.com/user-attachments/assets/bd52d90b-e265-4b25-a8c5-6a26dd826108" />
+
+<img width="2056" height="859" alt="Screenshot 2026-04-27 at 11 53 35" src="https://github.com/user-attachments/assets/7fecd91c-86b1-4d59-9c14-da590d8d028c" />
